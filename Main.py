@@ -3,28 +3,31 @@ __author__ = 'Adam Manuel'
 import ImageProcess
 from tkinter import Tk
 from tkinter import filedialog
-from PIL import Image
+from PIL import Image, ImageEnhance
 
 #Creates Tkinter window
 root = Tk()
+root.withdraw()
 
 #Hides the main window
 root.withdraw()
 
 #Asks for file
 ImagePath = filedialog.askopenfilename()
-Origpicture = Image.open(ImagePath, "r")
+OriginalPicture = Image.open(ImagePath, "r")
 
-#TODO Create a GUI that displays preview and lets you choose the threshold using a slider
+#---Process Image---
+picture = OriginalPicture
 
-#Asks about threshold
-Origpicture.show()
-print("What threshold do you want")
-print("(Value between 0-255)")
-print("(Lower number to outline darker object and higher number to outline lighter objects)?")
-Threshold = int(input())
+#Adds a higher contrast
+enhancer = ImageEnhance.Contrast(picture)
+picture = enhancer.enhance(2)
 
-#Process Image
-picture = Origpicture
-picture = ImageProcess.getEdges(picture, Threshold)
-picture.show()
+#outlines the light and dark regions of the picture
+picture75 = ImageProcess.getEdges(picture, 50)
+picture225 = ImageProcess.getEdges(picture, 205)
+
+#combines the two outlines into one image
+pictureAll = ImageProcess.mergePicture(picture75, picture225)
+pictureAll.show()
+
