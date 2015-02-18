@@ -4,6 +4,8 @@ import ImageProcess
 from tkinter import Tk
 from tkinter import filedialog
 from PIL import Image, ImageEnhance
+from Lines import Lines
+from Coordinate import Coor
 
 #Creates Tkinter window
 root = Tk()
@@ -29,5 +31,5 @@ picture225 = ImageProcess.getEdges(picture, 205)
 
 #combines the two outlines into one image
 pictureAll = ImageProcess.mergePicture(picture75, picture225)
-pictureAll.show()
 
+print(ImageProcess.printData(ImageProcess.getLineCoors(pictureAll)))

@@ -14,33 +14,37 @@ def getEdges(picture:Image, Threshold:int):
         picture = ImageOps.invert(picture)
         return picture
 
-#Need to make this more efficient
+#splits image into two colors based on darkness of pixels
+def getOnlyBWImage(picture: Image, Threshold:int):
+    mask=picture.convert("L")
+    mask = mask.point(lambda pixel: pixel < Threshold and 255)
+    return mask.convert("RGB")
+
+#turns the image in to a grayscale image
+def getBWImage(picture:Image):
+    return picture.convert("LA")
+
+#TODO Need to make this more efficient
 def mergePicture(image1:Image, image2:Image):
     rgb_image1 = image1.convert("RGB")
-    rgb_image2 = image2.convert("RGB")
     pixelData1 = image1.load()
     pixelData2 = image2.load()
-    sizex = image1.size[0]
-    sizey = image1.size[1]
-    print("about to merge")
-    for x in range(sizex):
-        for y in range(sizey):
-            pixelRGB = rgb_image1.getpixel((x,y))
-            R,G,B = pixelRGB
+    for x in range(image1.size[0]):
+        for y in range(image1.size[1]):
+            R,G,B = rgb_image1.getpixel((x,y))
             if(sum([R,G,B])/3 < 200):
                 pixelData2[x,y] = pixelData1[x,y]
+    print("Merging Done")
     return image2
-#TODO Goes line by line in image finding straight lines to use for date
-#Creates the info to draw lines
-''''
+
+#TODO FINISH THIS DAMN METHOD
 def getLineCoors(picture:Image):
+    #use .getpixel on rgb_image and add the line to the Data array
     Data = []
-    firstCoor = Coor(0,0)
-    secondCoor = Coor(0,0)
-    linetoadd = Lines(firstCoor, secondCoor)
-    for y in range(len(picture)):
-        isBlack = (picture[y][0] == (0,0,0))
-        for x in range(len(picture[0])):
-            secondCoor = Coor(x,y)
-            if(picture[firstCoor.getX()][firstCoor.getY()] != picture[firstCoor.getX()][secondCoor.getY()]):
-                '''''
+    rgb_image = picture.convert("RGB")
+
+    return Data
+
+def printData(Data):
+    for x in range(len(Data)):
+        print((Data[x]).toString())

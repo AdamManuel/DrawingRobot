@@ -40,3 +40,6 @@ class Coor(object):
         x = math.fabs(self.Coorx - Other.getX())**2
         y = math.fabs(self.Coory - Other.getY())**2
         return (math.sqrt(x + y))
+
+    def toString(self):
+        return "("+str(self.Coorx)+" ,"+str(self.Coory)+")"
